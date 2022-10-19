@@ -11,7 +11,8 @@
         <TextBox x:Name="tb_username" Padding="10"></TextBox>
         <Label Background="LightBlue" Padding="10">Password</Label>
         <PasswordBox x:Name="tb_password" Padding="10"></PasswordBox>
-        <Button Content="Login" Padding="10" Margin="10" Click="Button_Click"></Button>
-        <Button Content="Register" Padding="10" Margin="10" Width="300" Background="AliceBlue" Click="Button_Click_1"></Button>
+        <Label Background="LightBlue" Padding="10">Folder path</Label>
+        <TextBox x:Name="tb_path" Padding="10"></TextBox>
+        <Button Content="Login/Register" Padding="10" Margin="10" Click="Button_Click"></Button>
     </StackPanel>
 </Window>
