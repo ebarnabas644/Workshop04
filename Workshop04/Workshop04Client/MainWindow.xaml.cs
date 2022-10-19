@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -25,23 +26,29 @@ namespace Workshop04Client
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         HttpClient client;
         TokenModel token;
         HubConnection conn;
-        public ObservableCollection<LoggingModel> Logs;
+        FileSystemWatcher watcher;
+        public ObservableCollection<LoggingModel> Logs { get; set; }
         string basePath;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public MainWindow(TokenModel token, string path)
         {
             InitializeComponent();
 
             Logs = new ObservableCollection<LoggingModel>();
+            this.DataContext = Logs;
             this.token = token;
             this.basePath = path;
             ConfigureHttpClient();
             ConfigureSignalR();
             ConfigureWatcher(path);
+            SetUsername();
         }
 
         public void ConfigureHttpClient()
@@ -66,16 +73,25 @@ namespace Workshop04Client
             conn.On<LoggingModel>("watchMessage", async t =>
             {
                 Logs.Add(t);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("logs"));
             });
         }
 
         public void ConfigureWatcher(string path)
         {
-            FileSystemWatcher watcher = new FileSystemWatcher();
-            watcher.Path = path;
+            watcher = new FileSystemWatcher(path);
             watcher.Filter = "*.*";
+            watcher.NotifyFilter = NotifyFilters.Attributes
+                                | NotifyFilters.CreationTime
+                                | NotifyFilters.DirectoryName
+                                | NotifyFilters.FileName
+                                | NotifyFilters.LastAccess
+                                | NotifyFilters.LastWrite
+                                | NotifyFilters.Security
+                                | NotifyFilters.Size;
             watcher.Created += FileCreated;
             watcher.Deleted += FileDeleted;
+            watcher.IncludeSubdirectories = true;
             watcher.EnableRaisingEvents = true;
         }
 
@@ -111,6 +127,12 @@ namespace Workshop04Client
                 return await response.Content.ReadAsAsync<UserDataModel>();
             }
             throw new Exception("something wrong...");
+        }
+
+        async void SetUsername()
+        {
+            UserDataModel userData = await GetUserInfo();
+            tb_username.Content = userData.Email;
         }
 
     }
