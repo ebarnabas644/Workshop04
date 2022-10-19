@@ -6,16 +6,20 @@
         xmlns:local="clr-namespace:Workshop04Client"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Label Content="test" />
-        <ListBox ItemsSource="{Binding Logs}">
+    <StackPanel>
+        <Label Content="test" x:Name="tb_username" />
+        <ListBox ItemsSource="{Binding Logs}" Height="407">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Label Content="{Binding BasePath}" ContentStringFormat="Model: {0}" />
+                        <Label Content="{Binding BasePath}" ContentStringFormat="Base path: {0}" />
+                        <Label Content="{Binding File}" ContentStringFormat="File/Folder name: {0}" />
+                        <Label Content="{Binding OperationType}" ContentStringFormat="Operation type: {0}" />
+                        <Label Content="{Binding Time}" ContentStringFormat="Date: {0}" />
+                        <Label Content="{Binding Email}" ContentStringFormat="Owner: {0}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-    </Grid>
+    </StackPanel>
 </Window>
