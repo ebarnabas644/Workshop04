@@ -24,7 +24,6 @@ namespace Workshop04Client
         {
             InitializeComponent();
 
-
         }
     }
 }
