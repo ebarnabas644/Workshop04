@@ -99,6 +99,7 @@ namespace Workshop04Client
         {
             LoggingModel log = new LoggingModel();
             UserDataModel userData = await GetUserInfo();
+            log.Id = "";
             log.Email = userData.Email;
             log.Time = DateTime.Now;
             log.BasePath = this.basePath;
@@ -111,6 +112,7 @@ namespace Workshop04Client
         {
             LoggingModel log = new LoggingModel();
             UserDataModel userData = await GetUserInfo();
+            log.Id = "";
             log.Email = userData.Email;
             log.Time = DateTime.Now;
             log.BasePath = this.basePath;
