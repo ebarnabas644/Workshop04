@@ -32,7 +32,7 @@ namespace Workshop04Client
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:5095");
+            client.BaseAddress = new Uri("http://localhost:5183");
             client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 

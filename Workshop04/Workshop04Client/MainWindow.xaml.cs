@@ -47,7 +47,7 @@ namespace Workshop04Client
         public void ConfigureHttpClient()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:5095");
+            client.BaseAddress = new Uri("http://localhost:5183");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
               new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -57,7 +57,7 @@ namespace Workshop04Client
 
         public void ConfigureSignalR()
         {
-            conn = new HubConnectionBuilder().WithUrl("http://localhost:5095/events").Build();
+            conn = new HubConnectionBuilder().WithUrl("http://localhost:5183/events").Build();
             conn.Closed += async (error) =>
             {
                 await Task.Delay(new Random().Next(0, 5) * 1000);
