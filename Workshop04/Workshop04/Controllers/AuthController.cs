@@ -39,8 +39,9 @@ namespace M7CarManager.Controllers
                 await userManager.CreateAsync(createUser, model.Password);
                 //await userManager.AddToRoleAsync(createUser, "Customer");
 
-                return Ok();
+                //return Ok();
             }
+            user = await userManager.FindByNameAsync(model.Email);
             //Logging in
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
