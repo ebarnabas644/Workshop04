@@ -42,7 +42,7 @@ namespace Workshop04Client
             InitializeComponent();
 
             Logs = new ObservableCollection<LoggingModel>();
-            this.DataContext = Logs;
+            this.DataContext = this;
             this.token = token;
             this.basePath = path;
             ConfigureHttpClient();
@@ -64,17 +64,22 @@ namespace Workshop04Client
 
         public void ConfigureSignalR()
         {
-            conn = new HubConnectionBuilder().WithUrl("http://localhost:5183/events").Build();
+            conn = new HubConnectionBuilder().WithUrl("https://localhost:7183/events").Build();
             conn.Closed += async (error) =>
             {
                 await Task.Delay(new Random().Next(0, 5) * 1000);
                 await conn.StartAsync();
+                MessageBox.Show(error.Message);
             };
             conn.On<LoggingModel>("watchMessage", async t =>
             {
-                Logs.Add(t);
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("logs"));
+                this.Dispatcher.Invoke(() =>
+                {
+                    Logs.Add(t);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Logs)));
+                });
             });
+            conn.StartAsync();
         }
 
         public void ConfigureWatcher(string path)
