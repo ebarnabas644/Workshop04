@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Workshop04Models;
 
 namespace Workshop04.Data
 {
     public class ApiDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<IdentityUser> Users { get; set; }
+
+        public DbSet<LoggingModel> Logs { get; set; }
 
         public ApiDbContext(DbContextOptions options) : base(options)
         {
